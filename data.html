@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Чат-бот профориентации | Образовательная организация</title>
+    <link rel="stylesheet" href="data.css">
+</head>
+<body>
+
+<div class="chat-card">
+    <div class="chat-header">
+        <h1>🎓 Чат-бот профориентации</h1>
+        <p>Поможем найти твоё призвание ✨</p>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+        <div class="message bot">Привет! 👋 Я бот-консультант по выбору профессии. Расскажу о современных направлениях!</div>
+        <div class="message user">Здравствуйте! Интересно, какие профессии сейчас востребованы?</div>
+        <div class="message bot">Отличный вопрос! 💡 IT, digital-маркетинг, психология, робототехника, биотехнологии — всё это активно развивается. Что тебе ближе: техника, люди или творчество?</div>
+        <div class="message user">Мне нравится работать с техникой и компьютерами 😊</div>
+        <div class="message bot">Замечательно! 🚀 Программист, инженер-робототехник, специалист по кибербезопасности или аналитик данных — отличный выбор. Хочешь узнать подробнее о каком-то направлении?</div>
+    </div>
+
+    <div class="input-area">
+        <div class="input-wrapper">
+            <input type="text" id="userMessageInput" placeholder="Напишите сообщение..." autocomplete="off">
+        </div>
+        <button onclick="sendMessage()" id="sendBtn">📤 Отправить</button>
+    </div>
+
+    <div class="vk-integration">
+        <a href="https://vk.me/public211234567" class="vk-btn" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 12C22 6.477 17.523 2 12 2S2 6.477 2 12c0 4.42 2.865 8.166 6.84 9.49.5.092.682-.217.682-.48 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.532 1.03 1.532 1.03.892 1.528 2.341 1.087 2.91.832.092-.647.35-1.087.636-1.337-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.103-.253-.447-1.27.098-2.646 0 0 .84-.27 2.75 1.025.8-.222 1.65-.333 2.5-.337.85.004 1.7.115 2.5.337 1.91-1.294 2.75-1.025 2.75-1.025.545 1.376.201 2.393.099 2.646.64.698 1.03 1.59 1.03 2.682 0 3.84-2.337 4.687-4.565 4.935.36.31.68.92.68 1.855 0 1.338-.012 2.419-.012 2.747 0 .267.18.578.688.48C19.138 20.16 22 16.416 22 12z" fill="currentColor"/>
+            </svg>
+            Открыть чат в ВКонтакте
+        </a>
+        <p style="font-size: 11px; margin-top: 8px; color: #4b5563;">💬 Перейти к диалогу с ботом VK</p>
+    </div>
+</div>
+
+<script>
+
+    const chatMessagesContainer = document.getElementById('chatMessages');
+    const userInputField = document.getElementById('userMessageInput');
+    const sendButton = document.getElementById('sendBtn');
+    function addMessageToChat(text, sender) {
+        if (!text || text.trim() === '') return;
+
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', sender);
+        messageDiv.textContent = text.trim();
+        chatMessagesContainer.appendChild(messageDiv);
+        chatMessagesContainer.scrollTo({
+            top: chatMessagesContainer.scrollHeight,
+            behavior: 'smooth'
+        });
+    }
+    function getBotResponse(userMessage) {
+        if (!userMessage) return "Напишите что-нибудь, я помогу с выбором профессии :)";
+        
+        const msg = userMessage.toLowerCase().trim();
+
+        if (msg.includes("техник") || msg.includes("техника") || msg.includes("инженер") || msg.includes("робот") || msg.includes("айти") || msg.includes("it") || msg.includes("программ")) {
+            return "🚀 Отлично! Технические направления 🔧: программист (Python/Java/C++), инженер-конструктор, DevOps-инженер, специалист по кибербезопасности, тестировщик. Хочешь узнать про обучение?";
+        }
+        if (msg.includes("люди") || msg.includes("человек") || msg.includes("общение") || msg.includes("психолог") || msg.includes("помощь") || msg.includes("учитель") || msg.includes("менеджер")) {
+            return "👥 Профессии, связанные с людьми: психолог, HR-менеджер, педагог, социальный работник, коуч, специалист по клиентскому сервису. Высокий эмоциональный интеллект — твой плюс! 🌟";
+        }
+        if (msg.includes("творч") || msg.includes("дизайн") || msg.includes("художник") || msg.includes("рисовать") || msg.includes("музык") || msg.includes("анимац") || msg.includes("креатив")) {
+            return "🎨 Творческие профессии: графический дизайнер, иллюстратор, motion-дизайнер, видеомонтажёр, архитектор, копирайтер. Хочешь портфолио? Начни с курсов на Skillbox или Нетологии! ✨";
+        }
+        if (msg.includes("привет") || msg.includes("здравствуй") || msg.includes("добрый день") || msg.includes("доброе утро")) {
+            return "Привет-привет! 😊 Я бот-помощник. Расскажи, что тебя интересует: техника, люди или творчество? Или задай конкретный вопрос :)";
+        }
+        if (msg.includes("спасибо") || msg.includes("благодарю")) {
+            return "Пожалуйста! Рад помочь 🌟 Если появятся вопросы — спрашивай, вместе подберём идеальную профессию!";
+        }
+        if (msg.includes("курс") || msg.includes("обучение") || msg.includes("университет") || msg.includes("поступление")) {
+            return "📚 Рекомендую платформы: Stepik, Coursera, Яндекс.Практикум. Для IT — Хекслет. Также посмотри вузы с IT-специальностями (МИФИ, ИТМО, МГТУ им. Баумана).";
+        }
+        if (msg.includes("врач") || msg.includes("медицина") || msg.includes("здоровье")) {
+            return "🩺 Медицина — благородное дело! Врач, медицинский исследователь, биоинженер, фармацевт. Также востребованы медсёстры и лабораторные диагносты.";
+        }
+        
+        return "Интересно! 🤔 Расскажите подробнее о ваших увлечениях: техника, люди или творчество? Либо спросите про конкретную профессию, и я дам информацию!";
+    }
+
+    function sendMessage() {
+        const messageText = userInputField.value;
+        if (!messageText || messageText.trim() === "") {
+            userInputField.style.border = "1px solid #f97316";
+            setTimeout(() => {
+                userInputField.style.border = "";
+            }, 1000);
+            return;
+        }
+
+        addMessageToChat(messageText, "user");
+        
+        userInputField.value = "";
+        
+        sendButton.disabled = true;
+        sendButton.style.opacity = "0.7";
+        sendButton.textContent = "⏳ Отправка...";
+        
+        setTimeout(() => {
+            const reply = getBotResponse(messageText);
+            addMessageToChat(reply, "bot");
+            
+            sendButton.disabled = false;
+            sendButton.style.opacity = "1";
+            sendButton.textContent = "📤 Отправить";
+            
+            userInputField.focus();
+        }, 550);
+    }
+
+    function handleEnterKey(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            if (!sendButton.disabled) {
+                sendMessage();
+            }
+        }
+    }
+
+    userInputField.addEventListener("keypress", handleEnterKey);
+    
+    if (sendButton) {
+    }
+    
+    window.addEventListener('DOMContentLoaded', () => {
+        if (chatMessagesContainer) {
+            chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+        }
+        userInputField.focus();
+        userInputField.addEventListener("input", () => {
+            if (userInputField.style.borderColor === "rgb(249, 115, 22)" || userInputField.style.border === "1px solid #f97316") {
+                userInputField.style.border = "";
+                userInputField.style.outline = "";
+            }
+        });
+    });
+    window.sendMessage = sendMessage;
+    window.addMessageToChat = addMessageToChat;
+</script>
+</body>
+</html>
